@@ -4,7 +4,7 @@ const ReadLine = require('@serialport/parser-readline');
 // import {LIGHTS} from '../constants/lights';
 var LightBulb = require('../models/LightBulb');
 
-const port = new SerialPort('COM3', { baudRate: 9600 });
+const port = new SerialPort('/dev/ttyUSB0', { baudRate: 9600 });
 const parser = port.pipe(new ReadLine({ delimiter: '\n' }));
 // Open errors will be emitted as an error event
 port.on('error', function(err) {
@@ -18,15 +18,15 @@ exports.lightBulb_list = function (req, res) {
         console.log(lights)
         res.send({
             lights: lights
-        }).sort({_id:-1})
+        })
     });
 };
 
 exports.lightBulb_detail = function (req, res) {
-    LightBulb.findById(req.params.id, 'name description status'), function(error, lightBulb) {
+    LightBulb.findById(req.params.id, 'name description status', function(error, lightBulb) {
         if (error) { console.error(error); }
         res.send(lightBulb);        
-    }
+    })
 };
 
 // Display LightBulb create form on GET.
@@ -84,11 +84,12 @@ exports.lightBulb_update_post = function(req, res) {
         light.name = req.body.name;
         light.description = req.body.description;
         light.status = req.body.status;
-        const message = (light.status + '-' + light.name).toLocaleLowerCase;
-        messgaeFormated = message + '\n' ;
+        const message = (light.status + '-' + light.name).toLocaleLowerCase();
+        const messageFormatted = message + '\n' ;
+        console.log(messageFormatted);
         port.on('open', () => {
             setTimeout(() => { 
-                port.write(messgaeFormated, (err) => {
+                port.write(messageFormatted, (err) => {
                     if(err) {
                         return console.log('Error on write: ', err.message);
                     } 
