@@ -1,4 +1,4 @@
-var Post = require('./models/post');
+var Post = require('../models/post');
 
 // obten todos los posts
 exports.list_posts = function (req, res) {
@@ -45,7 +45,6 @@ exports.update_post = function (req, res) {
     //var db = req.db;
     Post.findById(req.params.id, 'title description', function (error, post) {
         if (error) { console.error(error); }
-
         post.title = req.body.title;
         post.description = req.body.description;
         post.save(function (error) {

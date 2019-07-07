@@ -16,7 +16,7 @@ router.post('/light_bulb/create', lightBulb_controller.lightBulb_create_post);
 router.get('/light_bulb/:id/delete', lightBulb_controller.lightBulb_delete_get);
 
 // POST request to delete Lightbulb.
-router.post('/light_bulb/:id/delete', lightBulb_controller.lightBulb_delete_post);
+router.delete('/light_bulb/:id/delete', lightBulb_controller.lightBulb_delete_post);
 
 // GET request to update Lightbulb.
 router.get('/light_bulb/:id/update', lightBulb_controller.lightBulb_update_get);

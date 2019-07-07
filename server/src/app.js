@@ -8,12 +8,13 @@ var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var roomRouter = require('./routes/rooms');
 var userRouter = require('./routes/users');
+
 const app = express();
 
 // const uri = 'mongodb+srv://tinkinand:<password>@cluster0-dzufl.azure.mongodb.net/test?retryWrites=true&w=majority';
 // mongoose.connect('mongodb://localhost:27017/posts');
-var mongoDB = 'mongodb+srv://edwinp:Neamilbus1.@projectredescluster-pijgi.azure.mongodb.net/test?retryWrites=true&w=majority';
-mongoose.connect(mongoDB);
+var mongoDB = 'mongodb+srv://edwinp:Neamilbus1.@projectredescluster-pijgi.azure.mongodb.net/iot_home?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, {useNewUrlParser: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'conection error'));
 db.once('open', function(callback){
