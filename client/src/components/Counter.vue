@@ -10,20 +10,20 @@
 </template>
 
 <script>
-import {counterStore} from '../store/CountStore'
+import {store} from '../store'
 export default {
   name: 'Counter',
   computed: {
     count () {
-      return counterStore.state.count
+      return store.state.counter.count
     }
   },
   methods: {
     increment () {
-      counterStore.commit('increment')
+      store.counter.commit('increment')
     },
     decrement () {
-      counterStore.commit('decrement')
+      store.counter.commit('decrement')
     }
   }
 }

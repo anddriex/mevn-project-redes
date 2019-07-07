@@ -6,6 +6,7 @@ import Posts from '@/components/Posts'
 import NewPost from '@/components/NewPost'
 import EditPost from '@/components/EditPost'
 import Counter from '@/components/Counter'
+import LightBulbsMotion from "../components/sensors/LightBulbsMotion";
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/counter',
       name: 'Counter',
       component: Counter
+    },
+    {
+      path: '/rooms/light_bulbs/',
+      name: 'LightBulbs',
+      component: LightBulbsMotion
     }
   ]
 })

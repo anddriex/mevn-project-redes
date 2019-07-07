@@ -19,11 +19,13 @@
   "homepage": "https://github.com/anddriex/mevn-project-redes#readme",
   "dependencies": {
     "@types/mongoose": "^5.5.6",
+    "async": "^3.1.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.6.0",
     "morgan": "^1.9.1",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "serialport": "^7.1.5"
   }
 }

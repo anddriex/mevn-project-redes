@@ -32,8 +32,8 @@ export default {
     async getPost () {
       const response = await PostsService.getPost({
         id: this.$route.params.id
-      })
-      this.title = response.data.title
+      });
+      this.title = response.data.title;
       this.description = response.data.description
     },
     async updatePost () {
@@ -41,7 +41,7 @@ export default {
         id: this.$route.params.id,
         title: this.title,
         description: this.description
-      })
+      });
       this.$router.push({ name: 'Posts' })
     }
   }

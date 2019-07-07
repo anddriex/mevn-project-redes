@@ -1,0 +1,4 @@
+export const LIGHTS = {
+    HALLWAY_LIGHT: 'HALLWAY_LIGHT',
+    POOL_LIGHT: 'POOL_LIGHT'
+};
