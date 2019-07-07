@@ -4,11 +4,18 @@ const ReadLine = require('@serialport/parser-readline');
 // import {LIGHTS} from '../constants/lights';
 var LightBulb = require('../models/LightBulb');
 
-const port = new SerialPort('/dev/ttyUSB0', { baudRate: 9600 });
+const port = new SerialPort('COM3', { baudRate: 9600 });
 const parser = port.pipe(new ReadLine({ delimiter: '\n' }));
 // Open errors will be emitted as an error event
 port.on('error', function(err) {
     console.log('Error: ', err.message)
+});
+port.on('open', () => {
+    console.log('serial port open');
+    // Read the port data
+    parser.on('data', data => {
+        console.log(data);
+    });
 });
 
 
@@ -87,16 +94,14 @@ exports.lightBulb_update_post = function(req, res) {
         const message = (light.status + '-' + light.name).toLocaleLowerCase();
         const messageFormatted = message + '\n' ;
         console.log(messageFormatted);
-        port.on('open', () => {
-            setTimeout(() => { 
-                port.write(messageFormatted, (err) => {
-                    if(err) {
-                        return console.log('Error on write: ', err.message);
-                    } 
-                    console.log('message written');
-                });
-            }, 5000);
-        });
+        setTimeout(() => { 
+            port.write(messageFormatted, (err) => {
+                if(err) {
+                    return console.log('Error on write: ', err.message);
+                } 
+                console.log('message written');
+            });
+        }, 4000);
         light.save(function (error) {
             if(error) {
                 console.log(error)
