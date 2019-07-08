@@ -1,0 +1,90 @@
+const byte DATA_MAX_SIZE = 32;
+char data[DATA_MAX_SIZE];   // an array to store the received data
+int ledHallway = 7;
+int ledStairs = 8;
+int ledGym = 9;
+int ledGarage = 10;
+int ledPool = 11;
+int ledKitchen = 12;
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600); // Starts the serial communication
+  pinMode(ledHallway, OUTPUT);
+}
+
+void loop() {
+  
+  // put your main code here, to run repeatedly:
+  delay(1000);
+  receiveData();
+//  Serial.println("hello from arduino!");
+//  delay(1000);
+//  Serial.println("Welcome to my house");
+//  delay(1000);
+  if (Serial.available() > 0) {
+    Serial.println("serial available!");
+  }
+  Serial.println(data);
+  if (String(data) == "on-entrada") {
+    digitalWrite(ledHallway, HIGH);
+  } else if (String(data) == "off-entrada") {
+    digitalWrite(ledHallway, LOW);
+  } else if (String(data) == "on-escaleras") {
+    digitalWrite(ledStairs, HIGH);
+  } else if (String(data) == "off-escaleras") {
+    digitalWrite(ledStairs, LOW);
+  } else if (String(data) == "on-gym") {
+    digitalWrite(ledGym, HIGH);
+  } else if (String(data) == "off-gym") {
+    digitalWrite(ledGym, LOW);
+  } else if (String(data) == "on-garage") {
+    digitalWrite(ledGarage, HIGH);
+  } else if (String(data) == "off-garage") {
+    digitalWrite(ledGarage, LOW);
+  } else if (String(data) == "on-piscina") {
+    digitalWrite(ledPool, HIGH);
+  } else if (String(data) == "off-piscina") {
+    digitalWrite(ledPool, LOW);
+  }else if (String(data) == "on-cocina") {
+    digitalWrite(ledKitchen, HIGH);
+  } else if (String(data) == "off-cocina") {
+    digitalWrite(ledKitchen, LOW);
+  }
+  
+}
+
+void receiveData() {
+  static char endMarker = '\n'; // message separator
+  char receivedChar;     // read char from serial port
+  int ndx = 0;          // current index of data buffer
+  
+  // clean data buffer
+  memset(data, 32, sizeof(data));
+  // read while we have data available and we are
+  // still receiving the same message.
+  while(Serial.available() > 0) {
+    receivedChar = Serial.read();
+    if (receivedChar == endMarker) {
+      data[ndx] = '\0'; // end current message
+      return;
+    }
+    // looks like a valid message char, so append it and
+    // increment our index
+    data[ndx] = receivedChar;
+    ndx++;
+    // if the message is larger than our max size then
+    // stop receiving and clear the data buffer. this will
+    // most likely cause the next part of the message
+    // to be truncated as well, but hopefully when you
+    // parse the message, you'll be able to tell that it's
+    // not a valid message.
+    if (ndx >= DATA_MAX_SIZE) {
+      break;
+    }
+  }
+  // no more available bytes to read from serial and we
+  // did not receive the separato. it's an incomplete message!
+//  Serial.print("error: incomplete message");
+//  Serial.println(data);
+  memset(data, 32, sizeof(data));
+}
