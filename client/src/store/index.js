@@ -2,7 +2,7 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex);
 
-import LightMotionService from '@services/LightMotionService';
+import LightMotionService from '../services/LightMotionService';
 
 const counterStore = {
   state: {
@@ -15,18 +15,8 @@ const counterStore = {
 };
 const lightMotionSensorStore = {
   state: {
-    lightBulbs: [
-      {
-        name: '',
-        description: '',
-        status: 'OFF'
-      },
-      {
-        name: '',
-        description: '',
-        status: 'OFF'
-      }
-    ]
+    lightBulbs: [],
+
   },
   getters: {
     lightBulbs: state => {
@@ -34,15 +24,15 @@ const lightMotionSensorStore = {
     }
   },
   mutations: {
-    setLightBulb: (state, lightBulb) => state.lightBulb = lightBulb,
-    // changeStatus: (state, lightBulb) => state.status = lightBulb.status
+    setLightBulb: (state, lightBulbs) => state.lightBulbs = lightBulbs,
+    // changeStatus: (state, lightBulb) => state.selectedStatus = lightBulb.selectedStatus
   },
   actions: {
     getLightBulbsAction: async (context, params) => {
-      context.commit('setLightBulb', await LightMotionService.fetchLightBulbs())
+      context.commit('setLightBulb', await LightMotionService.fetchAllLightBulbs())
     },
     // async changeStatusAction ({commit}, params){
-    //   commit('changeStatus', await LightMotionService.getLightBulb(params.id))
+    //   commit('changeStatus', await LightMotionService.getLightbulb(params.id))
     // }
   }
 };

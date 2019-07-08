@@ -1,10 +1,13 @@
-import Api from '@services/Api';
+import Api from './Api';
 
 export default {
-    getLightBulb (params) {
-        return Api().get('rooms/light_bulb/' + params.id);
-    },
-    fetchLightBulbs () {
-        return Api().get('rooms/light_bulbs')
-    },
-}
+	addLightBulb (params) {
+		return Api().post()
+	},
+	getLightbulb (params) {
+		return Api().get('rooms/light_bulb/' + params.id);
+	},
+	fetchAllLightBulbs () {
+		return Api().get('rooms/light_bulbs');
+	}
+};

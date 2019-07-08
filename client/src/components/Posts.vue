@@ -3,7 +3,7 @@
     <h1>Posts</h1>
     <div v-if="posts.length > 0" class="table-wrap">
       <div>
-        <router-link v-bind:to="{ name: 'NewPost' }" class="">Add Post</router-link>
+        <router-link v-bind:to="{ name: 'NewPost' }">Add Post</router-link>
       </div>
       <table>
         <tr>
