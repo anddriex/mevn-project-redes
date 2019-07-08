@@ -5,6 +5,10 @@ import HelloWorld from '@/components/HelloWorld'
 import LightBulbsMotion from '../components/LightBulbsMotion'
 import NewLightBulb from '../components/NewLightBulb'
 import EditLightBulb from '../components/EditLightBulb'
+import Doors from '../components/Doors'
+import NewDoor from '../components/NewDoor'
+import EditDoor from '../components/EditDoor'
+
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -28,6 +32,21 @@ export default new Router({
       path: '/rooms/light_bulb/:id',
       name: 'EditLightBulb',
       component: EditLightBulb
+    },
+    {
+      path: '/rooms/doors/',
+      name: 'Doors',
+      component: Doors
+    },
+    {
+      path: '/rooms/door/create',
+      name: 'NewDoor',
+      component: NewDoor
+    },
+    {
+      path: '/rooms/door/:id',
+      name: 'EditDoor',
+      component: EditDoor
     }
   ]
 })

@@ -1,12 +1,16 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import LightMotionService from '../services/LightMotionService'
+import DoorService from '../services/DoorService'
+
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
     lightBulbs: [],
-    lightBulb: {}
+    lightBulb: {},
+    doors: [],
+    door: {}
   },
   getters: {
     lightBulbs: state => {
@@ -14,6 +18,12 @@ export const store = new Vuex.Store({
     },
     lightBulb: state => {
       return state.lightBulb
+    },
+    doors: state => {
+      return state.doors
+    },
+    door: state => {
+      return state.door
     }
   },
   mutations: {
@@ -22,6 +32,12 @@ export const store = new Vuex.Store({
     },
     setLightBulbs: (state, payload) => {
       state.lightBulbs = payload.data.lights
+    },
+    setDoor: (state, payload) => {
+      state.door = payload.data
+    },
+    setDoors: (state, payload) => {
+      state.doors = payload.data.doors
     }
     // changeStatus: (state, lightBulb) => state.selectedStatus = lightBulb.selectedStatus
   },
@@ -38,6 +54,18 @@ export const store = new Vuex.Store({
     },
     updateLightBulbAction: async (context, params) => {
       await LightMotionService.updateLightBulb(params)
+    },
+    addNewDoorAction: async (context, params) => {
+      await DoorService.addDoor(params)
+    },
+    getDoorAction: async (context, params) => {
+      context.submit('setDoor', await DoorService.getDoor(params))
+    },
+    getDoorsAction: async (context, params) => {
+      context.commit('setDoors', await DoorService.fetchAllDoors())
+    },
+    updateDoorAction: async (context, params) => {
+      await DoorService.updateDoor(params)
     }
     // async changeStatusAction ({commit}, params){
     //   commit('changeStatus', await LightMotionService.getLightbulb(params.id))

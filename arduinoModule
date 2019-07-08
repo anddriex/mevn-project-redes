@@ -25,7 +25,7 @@ void loop() {
     Serial.println("serial available!");
   }
   Serial.println(data);
-  if (String(data) == "on-entrada") {
+    if (String(data) == "on-entrada") {
     digitalWrite(ledHallway, HIGH);
   } else if (String(data) == "off-entrada") {
     digitalWrite(ledHallway, LOW);
