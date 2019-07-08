@@ -1,45 +1,46 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-Vue.use(Vuex);
+import LightMotionService from '../services/LightMotionService'
+Vue.use(Vuex)
 
-import LightMotionService from '../services/LightMotionService';
-
-const counterStore = {
+export const store = new Vuex.Store({
   state: {
-    count: 0
-  },
-  mutations: {
-    increment: state => state.count++,
-    decrement: state => state.count--
-  }
-};
-const lightMotionSensorStore = {
-  state: {
-    lightBulbs: []
+    lightBulbs: [],
+    lightBulb: {}
   },
   getters: {
     lightBulbs: state => {
       return state.lightBulbs
+    },
+    lightBulb: state => {
+      return state.lightBulb
     }
   },
   mutations: {
-    setLightBulb: (state, lightBulbs) => state.lightBulbs = lightBulbs,
-    // changeStatus: (state, lightBulb) => state.status = lightBulb.status
+    setLightBulb: (state, payload) => {
+      state.lightBulb = payload.data
+    },
+    setLightBulbs: (state, payload) => {
+      state.lightBulbs = payload.data.lights
+    }
+    // changeStatus: (state, lightBulb) => state.selectedStatus = lightBulb.selectedStatus
   },
   actions: {
-    getLightBulbsAction: async (context, params) => {
-      context.commit('setLightBulb', await LightMotionService.fetchAllLightBulbs())
+    addNewLightBulbAction: async (context, params) => {
+      console.log(params)
+      await LightMotionService.addLightBulb(params)
     },
+    getLightBulbAction: async (context, params) => {
+      context.commit('setLightBulb', await LightMotionService.getLightbulb(params))
+    },
+    getLightBulbsAction: async (context, params) => {
+      context.commit('setLightBulbs', await LightMotionService.fetchAllLightBulbs())
+    },
+    updateLightBulbAction: async (context, params) => {
+      await LightMotionService.updateLightBulb(params)
+    }
     // async changeStatusAction ({commit}, params){
-    //   commit('changeStatus', await LightMotionService.getLightBulb(params.id))
+    //   commit('changeStatus', await LightMotionService.getLightbulb(params.id))
     // }
   }
-};
-
-
-export const store = new Vuex.Store({
-  modules: {
-    counter: counterStore,
-    lightMotionSensor: lightMotionSensorStore
-  }
-});
+})

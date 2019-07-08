@@ -4,38 +4,43 @@
         <h1>Nueva Luz</h1>
         <div class="form">
             <div>
-                <input type="text" name="title" placeholder="TITLE" v-model="title">
+                <input type="text" name="name" placeholder="ESCALERAS, GARAGE..." v-model="name" >
             </div>
             <div>
-                <textarea rows="15" cols="15" placeholder="DESCRIPTION" v-model="description"></textarea>
+                <textarea rows="6" cols="6" placeholder="Configurar tiempo de actividad de energia..." v-model="description"></textarea>
             </div>
             <div>
-                <button class="app_post_btn" @click="addPost">Add</button>
+                <button class="app_post_btn" @click="addNewLightBulb">agregar nueva luz</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import PostsService from '@/services/PostsService'
-    export default {
-        name: 'NewPost',
-        data () {
-            return {
-                title: '',
-                description: ''
-            }
-        },
-        methods: {
-            async addPost () {
-                await PostsService.addPost({
-                    title: this.title,
-                    description: this.description
-                })
-                this.$router.push({ name: 'Posts' })
-            }
-        }
+export default {
+  name: 'NewLightBulb',
+  data () {
+    return {
+      name: '',
+      description: '',
+      selectedStatus: 'OFF',
+      activeState: false
     }
+  },
+  methods: {
+    addNewLightBulb () {
+      const light = {
+        name: this.name,
+        description: this.description,
+        selectedStatus: this.selectedStatus,
+        activeState: this.activeState
+      }
+      this.$store.dispatch('addNewLightBulbAction', light)
+      this.$store.dispatch('getLightBulbsAction')
+      this.$router.push({name: 'LightBulbs'})
+    }
+  }
+}
 </script>
 <style type="text/css">
     .form input, .form textarea {

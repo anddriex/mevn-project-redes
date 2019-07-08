@@ -2,20 +2,27 @@
     <div class="light-motion">
         <h1>Luces</h1>
         <div v-if="lightBulbs.length > 0" class="table-wrap">
-<!--            <div>-->
-<!--                <router-link v-bind:to="{ name: 'NewPost' }">Add Post</router-link>-->
-<!--            </div>-->
+            <div>
+                <router-link v-bind:to="{ name: 'NewLightBulb' }">Nueva luz</router-link>
+            </div>
             <table>
                 <tr>
                     <td>Name</td>
-                    <td width="550">Description</td>
-                    <td width="100" align="center">Status</td>
+                    <td width="550">Descripcion</td>
+                    <td width="100" align="center">Actividad/Estado</td>
                 </tr>
                 <tr v-for="lightBulb in lightBulbs" v-bind:key="lightBulb.id">
                     <td>{{ lightBulb.name }}</td>
                     <td>{{ lightBulb.description }}</td>
-                    <td align="center">
-                        <a href="">{{lightBulb.status}}</a>
+                    <td v-if="lightBulb.activeState === true" align="center">
+                      <router-link v-bind:to="{ name: 'EditLightBulb', params: { id: lightBulb._id,  lightBulb: lightBulb } }">
+                        Edit
+                      </router-link> |
+                      <span>{{lightBulb.selectedStatus}}</span>
+                    </td>
+                    <td v-else align="center">
+                      <router-link v-bind:to="{ name: 'EditLightBulb', params: { id: lightBulb._id, lightBulb: lightBulb } }">Edit</router-link> |
+                      <span>Inactivo</span>
                     </td>
                 </tr>
             </table>
@@ -65,7 +72,7 @@ export default {
         background: #4d7ef7;
         color: #fff;
     }
-    a {
+    a, span {
         color: #4d7ef7;
         text-decoration: none;
     }
