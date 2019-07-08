@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
 var LightBulbSchema = new Schema({
     name: {type: String, required: true, max: 50},
     description: {type: String, max: 100},
-    status: {type: String, default: 'OFF', required: true, enum: ['ON', 'OFF']},
+    selectedStatus: {type: String, default: 'OFF', required: true, enum: ['ON', 'OFF']},
+    activeState: {type: Boolean, default: false, required: true }
     // mode: {type: String, default: 'MANUAL', required: true, enum: ['AUTO','MANUAL', 'MOTION']},
     // configAuto: {
     //     wakeUpTime: {type: String, min: 5, max: 5},

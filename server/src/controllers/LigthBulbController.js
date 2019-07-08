@@ -1,10 +1,9 @@
 const SerialPort = require('serialport');
 const ReadLine = require('@serialport/parser-readline');
 
-// import {LIGHTS} from '../constants/lights';
 var LightBulb = require('../models/LightBulb');
 
-const port = new SerialPort('COM3', { baudRate: 9600 });
+const port = new SerialPort('/dev/ttyUSB0', { baudRate: 9600 });
 const parser = port.pipe(new ReadLine({ delimiter: '\n' }));
 // Open errors will be emitted as an error event
 port.on('error', function(err) {
@@ -20,9 +19,8 @@ port.on('open', () => {
 
 
 exports.lightBulb_list = function (req, res) {
-    LightBulb.find({}, 'name description status', function (error, lights) {
+    LightBulb.find({}, 'name description selectedStatus activeState', function (error, lights) {
         if (error) {console.error(error);}
-        console.log(lights)
         res.send({
             lights: lights
         })
@@ -30,7 +28,7 @@ exports.lightBulb_list = function (req, res) {
 };
 
 exports.lightBulb_detail = function (req, res) {
-    LightBulb.findById(req.params.id, 'name description status', function(error, lightBulb) {
+    LightBulb.findById(req.params.id, 'name description selectedStatus activeState', function(error, lightBulb) {
         if (error) { console.error(error); }
         res.send(lightBulb);        
     })
@@ -44,11 +42,13 @@ exports.lightBulb_create_get = function (req, res) {
 exports.lightBulb_create_post = function (req, res) {
     var lightName = req.body.name;
     var lightDescription = req.body.description;
-    var lightStatus = req.body.status || 'off';
+    var lightStatus = req.body.selectedStatus || 'OFF';
+    var lightActiveState = req.body.activeState || false;
     var new_light_bulb = new LightBulb({
         name: lightName,
         description: lightDescription,
-        status: lightStatus
+        selectedStatus: lightStatus,
+        activeState: lightActiveState
     });
     new_light_bulb.save((error) => {
         if (error) {
@@ -86,12 +86,13 @@ exports.lightBulb_update_get = function(req, res) {
 
 // Handle LightBulb update on POST.
 exports.lightBulb_update_post = function(req, res) {
-    LightBulb.findById(req.params.id, 'name description status', function (error, light) {
+    LightBulb.findById(req.params.id, 'name description selectedStatus activeState', function (error, light) {
         if (error) { console.error(error); }
         light.name = req.body.name;
         light.description = req.body.description;
-        light.status = req.body.status;
-        const message = (light.status + '-' + light.name).toLocaleLowerCase();
+        light.selectedStatus = req.body.selectedStatus;
+        light.activeState = req.body.activeState;
+        const message = (light.selectedStatus + '-' + light.name).toLocaleLowerCase();
         const messageFormatted = message + '\n' ;
         console.log(messageFormatted);
         setTimeout(() => { 
@@ -101,14 +102,14 @@ exports.lightBulb_update_post = function(req, res) {
                 } 
                 console.log('message written');
             });
-        }, 4000);
+        }, 3000);
         light.save(function (error) {
             if(error) {
                 console.log(error)
             }
             res.send({
                 success: true,
-                status: req.body.status
+                selectedStatus: req.body.selectedStatus
             })
         })
     });

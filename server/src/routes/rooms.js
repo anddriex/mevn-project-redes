@@ -22,7 +22,7 @@ router.delete('/light_bulb/:id/delete', lightBulb_controller.lightBulb_delete_po
 router.get('/light_bulb/:id/update', lightBulb_controller.lightBulb_update_get);
 
 // POST request to update Lightbulb.
-router.post('/light_bulb/:id/update', lightBulb_controller.lightBulb_update_post);
+router.post('/light_bulb/:id', lightBulb_controller.lightBulb_update_post);
 
 // GET request for one Lightbulb.
 router.get('/light_bulb/:id', lightBulb_controller.lightBulb_detail);
