@@ -2,7 +2,7 @@ const SerialPort = require('serialport');
 const ReadLine = require('@serialport/parser-readline');
 
 var LightBulb = require('../models/LightBulb');
-
+var Door = require('../models/Door')
 const port = new SerialPort('/dev/ttyUSB0', { baudRate: 9600 });
 const parser = port.pipe(new ReadLine({ delimiter: '\n' }));
 // Open errors will be emitted as an error event
@@ -104,6 +104,39 @@ exports.lightBulb_update_post = function(req, res) {
             });
         }, 3000);
         light.save(function (error) {
+            if(error) {
+                console.log(error)
+            }
+            res.send({
+                success: true,
+                selectedStatus: req.body.selectedStatus
+            })
+        })
+    });
+};
+
+// Handle door update on POST.
+exports.door_update_post = function(req, res) {
+    Door.findById(req.params.id, 'name description selectedStatus activeState', function (error, door) {
+        if (error) { console.error(error); }
+        door.name = req.body.name;
+        door.description = req.body.description;
+        door.selectedStatus = req.body.selectedStatus;
+        door.activeState = req.body.activeState;
+        const message = door.selectedStatus.toLowerCase();
+        const messageFormatted = message + '\n' ;
+        console.log(messageFormatted);
+        setTimeout(() => {
+            console.log('timeout')
+            console.log(messageFormatted)
+            port.write(messageFormatted, (err) => {
+                if(err) {
+                    return console.log('Error on write: ', err.message);
+                }
+                console.log('message written');
+            });
+        }, 3000);
+        door.save(function (error) {
             if(error) {
                 console.log(error)
             }

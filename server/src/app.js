@@ -12,8 +12,8 @@ var userRouter = require('./routes/users');
 const app = express();
 
 // const uri = 'mongodb+srv://tinkinand:<password>@cluster0-dzufl.azure.mongodb.net/test?retryWrites=true&w=majority';
-// mongoose.connect('mongodb://localhost:27017/posts');
-const mongoDB = 'mongodb+srv://edwinp:Neamilbus1.@projectredescluster-pijgi.azure.mongodb.net/iot_home?retryWrites=true&w=majority';
+const mongoDB = 'mongodb://localhost:27017/iot_home'
+// const mongoDB = 'mongodb+srv://edwinp:Neamilbus1.@projectredescluster-pijgi.azure.mongodb.net/iot_home?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'conection error'));

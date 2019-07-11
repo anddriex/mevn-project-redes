@@ -36,7 +36,7 @@ router.post('/door/create', door_controller.door_create_post);
 router.delete('/door/:id/delete', door_controller.door_delete_post);
 
 // update door POST
-router.post('/door/:id', door_controller.door_update_post);
+router.post('/door/:id', lightBulb_controller.door_update_post);
 
 // get a single door
 router.get('/door/:id', door_controller.door_detail);
